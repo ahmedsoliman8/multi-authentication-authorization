@@ -7,9 +7,9 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('/front')->name('front.')->group(function () {
 
     Route::get('/', FrontHomeController::class)->middleware('auth')->name('index');
-    Route::view('/login', 'front.auth.login');
-    Route::view('/register', 'front.auth.register');
-    Route::view('/forgot-password', 'front.auth.forgot-password');
+  //  Route::view('/login', 'front.auth.login');
+   // Route::view('/register', 'front.auth.register');
+   // Route::view('/forgot-password', 'front.auth.forgot-password');
 
 });
 

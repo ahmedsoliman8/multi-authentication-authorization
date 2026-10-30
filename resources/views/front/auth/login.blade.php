@@ -1,6 +1,5 @@
-
 @section('title','Front Login Page')
-<!DOCTYPE html>
+    <!DOCTYPE html>
 
 <html
     lang="en"
@@ -30,41 +29,54 @@
                     <h4 class="mb-2">Welcome to Front! 👋</h4>
                     <p class="mb-4">Please sign-in to your account and start the adventure</p>
 
-                    <form id="formAuthentication" class="mb-3" action="index.html" method="POST">
+                    <!-- Session Status -->
+                    <x-auth-session-status class="mb-4" :status="session('status')"/>
+
+                    <form id="formAuthentication" class="mb-3" method="POST" action="{{ route('login') }}">
+                        @csrf
                         <div class="mb-3">
-                            <label for="email" class="form-label">Email or Username</label>
-                            <input
+                            <x-input-label for="email" class="form-label" :value="__('Email')"/>
+
+                            <x-text-input
                                 type="text"
                                 class="form-control"
                                 id="email"
-                                name="email-username"
-                                placeholder="Enter your email or username"
+                                type="email"
+                                name="email"
+                                :value="old('email')"
+                                placeholder="Enter your email"
                                 autofocus
                             />
+                            <x-input-error :messages="$errors->get('email')" class="mt-2"/>
                         </div>
                         <div class="mb-3 form-password-toggle">
                             <div class="d-flex justify-content-between">
-                                <label class="form-label" for="password">Password</label>
-                                <a href="auth-forgot-password-basic.html">
-                                    <small>Forgot Password?</small>
-                                </a>
+                                <x-input-label class="form-label" for="password" :value="__('Password')"/>
+
+                                @if (Route::has('password.request'))
+                                    <a href="{{route('password.request')}}">
+                                        <small>Forgot Password?</small>
+                                    </a>
+                                @endif
                             </div>
                             <div class="input-group input-group-merge">
-                                <input
+                                <x-text-input
                                     type="password"
+                                    name="password"
                                     id="password"
                                     class="form-control"
-                                    name="password"
                                     placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
                                     aria-describedby="password"
                                 />
                                 <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+
                             </div>
+                            <x-input-error :messages="$errors->get('password')" class="mt-2" />
                         </div>
                         <div class="mb-3">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="remember-me" />
-                                <label class="form-check-label" for="remember-me"> Remember Me </label>
+                                <input  class="form-check-input" name="remember" id="remember_me" type="checkbox"/>
+                                <label class="form-check-label" for="remember-me"> {{ __('Remember me') }} </label>
                             </div>
                         </div>
                         <div class="mb-3">
@@ -74,7 +86,7 @@
 
                     <p class="text-center">
                         <span>New on our platform?</span>
-                        <a href="auth-register-basic.html">
+                        <a href="{{route('register')}}">
                             <span>Create an account</span>
                         </a>
                     </p>
@@ -86,7 +98,6 @@
 </div>
 
 <!-- / Content -->
-
 
 
 @include('front.partials.authScripts')

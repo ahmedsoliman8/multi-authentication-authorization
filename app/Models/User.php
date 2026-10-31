@@ -25,6 +25,10 @@ class User extends Authenticatable implements MustVerifyEmail
         $this->notify(new UpatedEmailNotification($token));
     }
 
+    public function sendEmailVerificationNotification(){
+
+    }
+
     /**
      * Get the attributes that should be cast.
      *

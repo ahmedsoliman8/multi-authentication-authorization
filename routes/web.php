@@ -1,15 +1,25 @@
 <?php
 
+use App\Http\Controllers\Back\BackHomeController;
 use App\Http\Controllers\FrontHomeController;
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('/front')->name('front.')->group(function () {
 
     Route::get('/', FrontHomeController::class)->middleware('auth')->name('index');
-  //  Route::view('/login', 'front.auth.login');
-   // Route::view('/register', 'front.auth.register');
-   // Route::view('/forgot-password', 'front.auth.forgot-password');
+    //  Route::view('/login', 'front.auth.login');
+    // Route::view('/register', 'front.auth.register');
+    // Route::view('/forgot-password', 'front.auth.forgot-password');
+
+});
+
+
+Route::prefix('/back')->name('back.')->group(function () {
+
+    Route::get('/', BackHomeController::class)->name('index');
+    Route::view('/login', 'back.auth.login')->name('login');
+    Route::view('/register', 'back.auth.register')->name('register');
+    Route::view('/forgot-password', 'back.auth.forgot-password')->name('password.request');
 
 });
 

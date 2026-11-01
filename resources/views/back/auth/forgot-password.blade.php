@@ -29,7 +29,7 @@
                     <h4 class="mb-2">Forgot Password? 🔒</h4>
                     <p class="mb-4">Enter your email and we'll send you instructions to reset your password</p>
                     <x-auth-session-status class="mb-4" :status="session('status')"/>
-                    <form id="formAuthentication" class="mb-3" method="POST" action="{{ route('password.email') }}">
+                    <form id="formAuthentication" class="mb-3" method="POST" action="{{ route('back.password.email') }}">
                         @csrf
                         <div class="mb-3">
 

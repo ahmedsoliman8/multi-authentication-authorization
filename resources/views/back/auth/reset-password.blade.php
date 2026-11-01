@@ -26,11 +26,11 @@
                     @include('back.partials.authLogo')
 
                     <!-- /Logo -->
-                    <h4 class="mb-2">Reset Password  🚀</h4>
+                    <h4 class="mb-2">Reset Password 🚀</h4>
 
 
-
-                    <form id="formAuthentication" class="mb-3" method="POST" action="{{ route('password.store') }}">
+                    <form id="formAuthentication" class="mb-3" method="POST"
+                          action="{{ route('back.password.store') }}">
                         @csrf
                         <!-- Password Reset Token -->
                         <input type="hidden" name="token" value="{{ $request->route('token') }}">

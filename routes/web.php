@@ -16,7 +16,9 @@ Route::prefix('/front')->name('front.')->group(function () {
 
 Route::prefix('/back')->name('back.')->group(function () {
 
-    Route::get('/', BackHomeController::class)->name('index');
+    Route::get('/', BackHomeController::class)
+        ->middleware('admin')
+        ->name('index');
     Route::view('/login', 'back.auth.login')->name('login');
     Route::view('/register', 'back.auth.register')->name('register');
     Route::view('/forgot-password', 'back.auth.forgot-password')->name('password.request');

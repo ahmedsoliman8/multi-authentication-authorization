@@ -1,5 +1,5 @@
 @extends('back.master')
-@section('title','Role Page')
+@section('title','Role Page Edit')
 @section('content')
 
     <div class="page-title-box d-sm-flex align-items-center justify-content-between mb-3">

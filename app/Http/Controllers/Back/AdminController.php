@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Back;
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class AdminController extends Controller
 {
@@ -22,7 +24,9 @@ class AdminController extends Controller
      */
     public function create()
     {
-        //
+        $roles = Role::where('guard_name', 'admin')->get();
+
+        return view('back.admins.create', compact('roles'));
     }
 
     /**
@@ -30,7 +34,29 @@ class AdminController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:admins,email',
+            'password' => 'required|string|min:8|confirmed',
+            'role' => 'required|exists:roles,name,guard_name,admin',
+        ]);
+
+      //  dd($request->all());
+        $admin = Admin::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+
+        $role = Role::where('name', $request->role)
+            ->where('guard_name', 'admin')
+            ->firstOrFail();
+
+        $admin->assignRole($role);
+
+        return redirect()
+            ->route('back.admins.index')
+            ->with('success', 'Admin created successfully.');
     }
 
     /**

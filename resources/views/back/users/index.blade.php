@@ -2,7 +2,20 @@
 @section('title','User Page')
 @section('content')
 
-    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Users </span></h4>
+    <div class="page-title-box d-sm-flex align-items-center justify-content-between mb-3">
+        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Users </span></h4>
+        @if(Auth::guard('admin')->user()->hasAnyPermission('add_user'))
+            <div class="page-title-right">
+
+                <a href="{{ route('back.users.create') }}"
+                   class="btn btn-primary btn-sm">
+                    Create
+
+                </a>
+
+            </div>
+        @endif
+    </div>
 
     <!-- Basic Bootstrap Table -->
     <div class="card">
@@ -13,6 +26,7 @@
                 <tr>
                     <th>#</th>
                     <th>Name</th>
+                    <th>Email</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -22,12 +36,14 @@
                         <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
                             <strong>{{ $loop->iteration }}</strong></td>
                         <td>{{$user->name}}</td>
+                        <td>{{$user->email}}</td>
 
                         <td>
                             <div class="dropdown">
-                                <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                <button type="button" class="btn btn-primary dropdown-toggle hide-arrow"
                                         data-bs-toggle="dropdown">
-                                    <i class="bx bx-dots-vertical-rounded"></i>
+                                    <i class="bx bx-vertical-center"></i>
+                                    Actions
                                 </button>
                                 <div class="dropdown-menu">
                                     <a class="dropdown-item" href="javascript:void(0);"

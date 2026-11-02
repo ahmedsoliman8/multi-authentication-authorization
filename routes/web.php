@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\Back\AdminController;
 use App\Http\Controllers\Back\BackHomeController;
+use App\Http\Controllers\Back\RoleController;
+use App\Http\Controllers\Back\UserController;
 use App\Http\Controllers\FrontHomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -8,9 +11,7 @@ require __DIR__ . '/auth.php';
 Route::prefix('/front')->name('front.')->group(function () {
 
     Route::get('/', FrontHomeController::class)->middleware('auth')->name('index');
-    //  Route::view('/login', 'front.auth.login');
-    // Route::view('/register', 'front.auth.register');
-    // Route::view('/forgot-password', 'front.auth.forgot-password');
+
 
 });
 
@@ -18,13 +19,14 @@ Route::prefix('/front')->name('front.')->group(function () {
 Route::prefix('/back')->name('back.')->group(function () {
 
     require __DIR__ . '/adminAuth.php';
-    Route::get('/', BackHomeController::class)
-        ->middleware('admin')
-        ->name('index');
+    Route::middleware('admin')->group(function () {
+        Route::get('/', BackHomeController::class)->name('index');
+        Route::resource('admins', AdminController::class);
+        Route::resource('users', UserController::class);
+        Route::resource('roles', RoleController::class);
 
-    // Route::view('/login', 'back.auth.login')->name('login');
-    // Route::view('/register', 'back.auth.register')->name('register');
-    //  Route::view('/forgot-password', 'back.auth.forgot-password')->name('password.request');
+    });
+
 
 });
 

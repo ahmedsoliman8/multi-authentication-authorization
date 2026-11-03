@@ -5,9 +5,22 @@ namespace App\Http\Controllers\Back;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class UserController extends Controller
+class UserController extends Controller implements HasMiddleware
 {
+
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('checkPermission:add_user', only: ['create', 'store']),
+            new Middleware('checkPermission:show_user', only: ['show']),
+            new Middleware('checkPermission:edit_user', only: ['edit', 'update']),
+            new Middleware('checkPermission:delete_user', only: ['destroy']),
+        ];
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -22,7 +35,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        dd('create');
     }
 
     /**
@@ -30,7 +43,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd('store');
     }
 
     /**
@@ -38,7 +51,7 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        //
+        dd('show');
     }
 
     /**
@@ -46,7 +59,7 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        dd('edit');
     }
 
     /**
@@ -54,7 +67,8 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        dd('update');
+
     }
 
     /**
@@ -62,6 +76,6 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        dd('destroy');
     }
 }

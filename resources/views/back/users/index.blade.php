@@ -4,7 +4,7 @@
 
     <div class="page-title-box d-sm-flex align-items-center justify-content-between mb-3">
         <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Users </span></h4>
-        @if(Auth::guard('admin')->user()->hasAnyPermission('add_user'))
+        @if(permission(['add_user']))
             <div class="page-title-right">
 
                 <a href="{{ route('back.users.create') }}"
@@ -46,12 +46,16 @@
                                     Actions
                                 </button>
                                 <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="javascript:void(0);"
-                                    ><i class="bx bx-edit-alt me-1"></i> Edit</a
-                                    >
-                                    <a class="dropdown-item" href="javascript:void(0);"
-                                    ><i class="bx bx-trash me-1"></i> Delete</a
-                                    >
+                                    @if(permission(['edit_user']))
+                                        <a class="dropdown-item" href="javascript:void(0);"
+                                        ><i class="bx bx-edit-alt me-1"></i> Edit</a
+                                        >
+                                    @endif
+                                    @if(permission(['delete_user']))
+                                        <a class="dropdown-item" href="javascript:void(0);"
+                                        ><i class="bx bx-trash me-1"></i> Delete</a
+                                        >
+                                    @endif
                                 </div>
                             </div>
                         </td>

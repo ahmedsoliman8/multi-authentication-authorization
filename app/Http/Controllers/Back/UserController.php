@@ -10,10 +10,10 @@ use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
-class UserController extends Controller implements HasMiddleware
+class UserController extends Controller
 {
 
-    public static function middleware(): array
+   /* public static function middleware(): array
     {
         return [
             //    new Middleware('checkPermission:add_user', only: ['create', 'store']),
@@ -21,7 +21,9 @@ class UserController extends Controller implements HasMiddleware
             //    new Middleware('checkPermission:edit_user', only: ['edit', 'update']),
             //    new Middleware('checkPermission:delete_user', only: ['destroy']),
         ];
-    }
+    }*/
+
+
 
     /**
      * Display a listing of the resource.
@@ -38,6 +40,7 @@ class UserController extends Controller implements HasMiddleware
     public function create()
     {
         Gate::forUser(Auth::guard('admin')->user())->authorize('add_user');
+        //$this->authorize('create', User::class);
         dd('create');
     }
 
@@ -46,6 +49,7 @@ class UserController extends Controller implements HasMiddleware
      */
     public function store(Request $request)
     {
+
         dd('store');
     }
 
@@ -54,6 +58,9 @@ class UserController extends Controller implements HasMiddleware
      */
     public function show(string $id)
     {
+
+
+        Gate::forUser(Auth::guard('admin')->user())->authorize('add_user');
         dd('show');
     }
 
@@ -62,6 +69,7 @@ class UserController extends Controller implements HasMiddleware
      */
     public function edit(string $id)
     {
+        $this->authorize('edit', User::class);
         dd('edit');
     }
 
@@ -79,6 +87,7 @@ class UserController extends Controller implements HasMiddleware
      */
     public function destroy(string $id)
     {
+        $this->authorize('delete', User::class);
         dd('destroy');
     }
 }

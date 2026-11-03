@@ -4,12 +4,16 @@ namespace App\Providers;
 
 use App\Models\Admin;
 use App\Models\User;
+use App\Policies\UserPolicy;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Auth\Access\Response;
 
 class AuthServiceProvider extends ServiceProvider
 {
+    protected $policies = [
+        User::class => UserPolicy::class,
+    ];
     /**
      * Register services.
      */
@@ -23,6 +27,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Gate::policy(User::class, UserPolicy::class);
 
         /*  Gate::define('show_user', function (Admin $admin) {
               return $admin->hasAnyPermission('show_user');
@@ -40,7 +45,7 @@ class AuthServiceProvider extends ServiceProvider
               return $admin->hasAnyPermission('delete_user');
           });
   */
-        Gate::before(function ($admin, $ability) {
+      /*  Gate::before(function ($admin, $ability) {
 
 
             if ($admin->hasAnyPermission($ability)) {
@@ -49,6 +54,6 @@ class AuthServiceProvider extends ServiceProvider
             return Response::deny('You do not have permission to create users.');
 
 
-        });
+        });*/
     }
 }

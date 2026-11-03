@@ -7,6 +7,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class UserController extends Controller implements HasMiddleware
 {
@@ -14,10 +16,10 @@ class UserController extends Controller implements HasMiddleware
     public static function middleware(): array
     {
         return [
-            new Middleware('checkPermission:add_user', only: ['create', 'store']),
-            new Middleware('checkPermission:show_user', only: ['show']),
-            new Middleware('checkPermission:edit_user', only: ['edit', 'update']),
-            new Middleware('checkPermission:delete_user', only: ['destroy']),
+            //    new Middleware('checkPermission:add_user', only: ['create', 'store']),
+            //    new Middleware('checkPermission:show_user', only: ['show']),
+            //    new Middleware('checkPermission:edit_user', only: ['edit', 'update']),
+            //    new Middleware('checkPermission:delete_user', only: ['destroy']),
         ];
     }
 
@@ -35,6 +37,7 @@ class UserController extends Controller implements HasMiddleware
      */
     public function create()
     {
+        Gate::forUser(Auth::guard('admin')->user())->authorize('add_user');
         dd('create');
     }
 
